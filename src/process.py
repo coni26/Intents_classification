@@ -15,7 +15,7 @@ def embed_daily_dialog(name='bert'):
     training_dataset = dataset['train'].map(lambda row: {'embeddings': model.encode(row['dialog'])}, batched=False)
     validation_dataset = dataset['validation'].map(lambda row: {'embeddings': model.encode(row['dialog'])}, batched=False)
     test_dataset = dataset['test'].map(lambda row: {'embeddings': model.encode(row['dialog'])}, batched=False)
-    #training_dataset.to_csv('data/daily_dialog_' + name + '.hug') au pif mais t'as capté
-    #validation_dataset.to_csv(data/daily_dialog_bert.hug)
-    #test_dataset.to_csv(data/daily_dialog_bert.hug)
+    training_dataset.save_to_disk("data/daily_dialog_" + name + "_train.hf")
+    validation_dataset.save_to_disk("data/daily_dialog_" + name + "_validation.hf")
+    test_dataset.save_to_disk("data/daily_dialog_" + name + "_test.hf")
 
