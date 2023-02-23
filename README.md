@@ -1,1 +1,1 @@
-# Intents_classification
+# Intent_classification
