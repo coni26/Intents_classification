@@ -3,6 +3,7 @@ import sys
 from datasets import Dataset
 import numpy as np
 import torch
+from torch import nn
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 def get_custom_batches(dataset, batch_size=32):
@@ -24,6 +25,7 @@ def get_custom_batches(dataset, batch_size=32):
 def get_val_perf(batches_val, validation, model):
     l_, s_ = 0, 0
     sum_loss = 0
+    criterion = nn.CrossEntropyLoss(reduction='sum')
     for i in range(len(batches_val)):
         small_dataset = validation.select(batches_val[i])
 
