@@ -5,6 +5,7 @@ from torch import nn
 import torch.nn.functional as F
 import numpy as np
 from torch.autograd import Variable
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 
 
