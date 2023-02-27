@@ -40,3 +40,13 @@ def get_val_perf(batches_val, validation, model):
         l_ += (torch.argmax(pred, axis=1)==true).sum().item()
         s_ += len(pred)
     return l_ / s_, sum_loss / len(batches_val)
+
+
+def get_nb_parameters(model):
+    res = 0
+    for name, param in model.named_parameters():
+        if len(param.shape) > 1:
+            res += param.shape[0] * param.shape[1]
+        else:
+            res += param.shape[0]
+    return res
