@@ -50,3 +50,43 @@ def get_nb_parameters(model):
         else:
             res += param.shape[0]
     return res
+
+
+def get_model_stats(model, test, nb_cat=4):
+    predictions = []
+    for i in range(len(test)):
+        emb = np.array(test[i]['embeddings'])
+        emb = torch.from_numpy(emb).to(torch.float32).unsqueeze(0).to(device)
+        with torch.no_grad():
+            pred = model(emb)
+        predictions.append(torch.argmax(pred, axis=1).cpu().numpy())
+        
+    max_len = max(map(len, test['act']))
+    res = np.nan * np.ones(shape=(len(test), max_len))
+    true_mat = np.nan * np.ones(shape=(len(test), max_len))
+    pred_mat = np.nan * np.ones(shape=(len(test), max_len))
+    res_len = np.zeros((max_len-1, 2), dtype=int)
+    res_cat = np.zeros((nb_cat, 2), dtype=int)
+    cat_pos = np.zeros((max_len, 4), dtype=int)
+    res_last = 0
+
+    for i in range(len(test)):
+        true = np.array(test[i]['act']) - 1
+        res[i, 0:len(true)] = true == predictions[i]
+        true_mat[i, 0:len(true)] = true 
+        pred_mat[i, 0:len(true)] = predictions[i] 
+        res_len[len(true)-2, 0] += (true == predictions[i]).sum()
+        res_len[len(true)-2, 1] += len(true)
+        for j in range(len(true)):
+            res_cat[true[j], 0] += predictions[i][j] == true[j]
+            res_cat[true[j], 1] += 1
+            cat_pos[j, true[j]] += 1
+        res_last += predictions[i][-1] == true[-1]
+        
+
+    accuracy = np.nansum(res) / np.sum(~np.isnan(res))
+    acc_per_position = np.nansum(res, axis=0) / np.sum(~np.isnan(res), axis=0)
+    acc_per_len = res_len[:, 0] / res_len[:, 1]
+    acc_first = acc_per_position[0]
+    acc_last = res_last / len(test)
+    return accuracy, acc_per_position, acc_per_len, acc_first, acc_last
