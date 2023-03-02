@@ -1,6 +1,5 @@
 encoder,size,desc
-all-MiniLM-L6-v2,384,"Compact distilled model with RoBERTa-Large as teacher, version with 6 layers (30M parameters). To obtain the sentence transformer, the model is fine-tuned on a set of 1B sentence pairs with the task: given a sentence from a pair, the model must predict which of a set of other randomly sampled sentences is matched with it."
-all-mpnet-base-v2,768,TO COMPLETE
-all-distilroberta-v1,768,TO COMPLETE
-gtr-t5-large,768,TO COMPLETE
-all-roberta-large-v1,1024,TO COMPLETE
+all-MiniLM-L6-v2,384,"MiniLM is a compact distilled model with RoBERTa-Large as teacher, version with 6 layers (30M parameters). To obtain the sentence transformer, the model is fine-tuned on a set of 1B sentence pairs with the task: given a sentence from a pair, the model must predict which of a set of other randomly sampled sentences is matched with it."
+all-mpnet-base-v2,768,"MPNet (110M parameters, same architecture as BERT-base) is a training method combining MLM (Bert) and PLM (XLNet). To obtain the sentence transformer, the model is fine-tuned on a set of 1B sentence pairs with the task: given a sentence from a pair, the model must predict which of a set of other randomly sampled sentences is matched with it."
+gtr-t5-large,768,"T5-Base (220M parameters) is a text-to-text transformer pre-trained on  Colossal Clean Crawled Corpus. To obtain the sentence transformer, the model is fine-tuned for semantic search: given a query/question, if can find relevant passages."
+all-roberta-large-v1,1024,"The base model is Roberta (354M parameters). To obtain the sentence transformer, the model is fine-tuned on a set of 1B sentence pairs with the task: given a sentence from a pair, the model must predict which of a set of other randomly sampled sentences is matched with it."
