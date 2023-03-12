@@ -92,7 +92,7 @@ def get_model_stats(model, test, nb_cat=4):
     return accuracy, acc_per_position, acc_per_len, acc_first, acc_last
 
 
-def train(model, nb_epochs=100):
+def train(model, train, validation, train_batches, nb_epochs=100):
     val_losses, train_losses = [], []
     
     if torch.cuda.is_available():
@@ -104,7 +104,6 @@ def train(model, nb_epochs=100):
 
     for epoch in range(nb_epochs):
         sum_loss = 0
-        random.shuffle(train_batches)
         for i, batch in enumerate(train_batches):
             batch_train = train.select(batch)
             emb = np.array(batch_train['embeddings'])
