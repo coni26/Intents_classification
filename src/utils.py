@@ -90,3 +90,38 @@ def get_model_stats(model, test, nb_cat=4):
     acc_first = acc_per_position[0]
     acc_last = res_last / len(test)
     return accuracy, acc_per_position, acc_per_len, acc_first, acc_last
+
+
+def train(model, nb_epochs=100):
+    val_losses, train_losses = [], []
+    
+    if torch.cuda.is_available():
+        model.cuda()
+        
+    criterion = nn.CrossEntropyLoss(reduction='sum')
+    optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+    scheduler = StepLR(optimizer, step_size=20,  gamma=0.1)
+
+    for epoch in range(nb_epochs):
+        sum_loss = 0
+        random.shuffle(train_batches)
+        for i, batch in enumerate(train_batches):
+            batch_train = train.select(batch)
+            emb = np.array(batch_train['embeddings'])
+            emb = torch.from_numpy(emb).to(torch.float32).to(device)
+
+            true = torch.from_numpy((np.array(batch_train['act'])-1).flatten()).to(device)
+
+            optimizer.zero_grad()
+            pred = model(emb)
+            loss = criterion(pred, true)
+            loss.backward()
+
+            optimizer.step()
+            sum_loss += loss.item() / len(true)
+        scheduler.step()
+        val_acc, val_loss = get_val_perf(val_batches, validation, model)
+        val_losses.append(val_loss)
+        train_losses.append(sum_loss / len(train_batches))
+        print("Epoch: {:>3} | Loss: ".format(epoch) + f"{sum_loss / len(train_batches):.4e}" + " | Validation Loss: " + f"{val_loss:.4e}" + " | Validation Accuracy: " + f"{round(val_acc, 4)}")
+    return model
