@@ -7,6 +7,21 @@ from torch import nn
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 def get_custom_batches(dataset, batch_size=32):
+    """Compute a batch list composed of sequences of the same size.
+
+    Parameters
+    ----------
+
+    dataset: Dataset 
+        data that we want to transform into a batch
+    batch_size: int
+        maximum batch size
+        
+    Returns
+    -------
+    batches: List
+        List of indices in each batch
+    """
     file_len = []
     for i in range(len(dataset)):
         file_len.append(len(dataset[i]['act']))
@@ -23,6 +38,22 @@ def get_custom_batches(dataset, batch_size=32):
 
 
 def get_val_perf(batches_val, validation, model):
+    """Compute accuracy and loss on validation dataset.
+
+    Parameters
+    ----------
+
+    batches_val: List 
+        list of batches for validation set
+    validation: Dataset
+        validation set
+    model: pytorch model
+    
+    Returns
+    -------
+    batches: tuple
+        (accuracy, loss)
+    """
     l_, s_ = 0, 0
     sum_loss = 0
     criterion = nn.CrossEntropyLoss(reduction='sum')
@@ -43,6 +74,18 @@ def get_val_perf(batches_val, validation, model):
 
 
 def get_nb_parameters(model):
+    """Compute number of parameters in model.
+
+    Parameters
+    ----------
+
+    model: pytorch model
+    
+    Returns
+    -------
+    res: int
+    
+    """
     res = 0
     for name, param in model.named_parameters():
         if len(param.shape) > 1:
@@ -53,6 +96,23 @@ def get_nb_parameters(model):
 
 
 def get_model_stats(model, test, nb_cat=4):
+    """Compute all useful stats on test set.
+
+    Parameters
+    ----------
+    
+    model: pytorch model
+    
+    test: Dataset 
+    
+    nb_cat: int | 4
+        number of classes
+    
+    Returns
+    -------
+    batches: tuple
+        (accuracy, acc_per_position, acc_per_len, acc_first, acc_last)
+    """
     predictions = []
     for i in range(len(test)):
         emb = np.array(test[i]['embeddings'])
@@ -93,6 +153,25 @@ def get_model_stats(model, test, nb_cat=4):
 
 
 def train(model, train, validation, train_batches, nb_epochs=100):
+    """Train model.
+
+    Parameters
+    ----------
+    
+    model: pytorch model
+    
+    train: Dataset 
+    
+    validation: Dataset
+    
+    train_batches: List
+    
+    nb_epochs: int | 100
+    
+    Returns
+    -------
+    model: pytorch model
+    """
     val_losses, train_losses = [], []
     
     if torch.cuda.is_available():
