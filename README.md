@@ -4,7 +4,7 @@
 
 Abstract :
 
->*Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sed neque nisl. Aliquam purus purus, ornare at tellus quis, aliquam finibus ante. Nam elementum volutpat nisl vel maximus. Nullam convallis ipsum ac magna facilisis, sit amet sagittis mauris ullamcorper. In viverra neque at mauris facilisis sollicitudin. Integer quis commodo lacus. Fusce congue, odio nec feugiat pellentesque, risus urna facilisis enim, quis facilisis nisl turpis at eros. Curabitur ut condimentum orci, sed laoreet diam.*
+>*This study presents a benchmark of various encoder and decoder architectures for intent classification in dialogue systems, using the DailyDialog corpus. The role of context in classification accuracy is explored, with a particular focus on the importance of capturing dynamic structures of context in real-world applications. Our results demonstrate that including context significantly improves classification performance, and that the choice of decoder architecture is important both for their architecture and the level of context they use. We also demonstrated that analyzing accuracy according to the context - past, none, and full - provides valuable insights into the impact of context on real-world applications.*
 
 
 ### Prerequisites
