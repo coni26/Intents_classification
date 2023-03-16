@@ -1,4 +1,4 @@
-# Mettre le titre final
+# The Importance of Context in Intent Classification: A Comparative Study of Encoder-Decoder Architectures
 
 [Full paper](https://pamplemousse.ensae.fr/index.php?p=100)
 
