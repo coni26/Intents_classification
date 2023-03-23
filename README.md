@@ -1,6 +1,6 @@
 # The Importance of Context in Intent Classification: A Comparative Study of Encoder-Decoder Architectures
 
-[Full paper](https://pamplemousse.ensae.fr/index.php?p=100)
+[Full paper](https://openreview.net/forum?id=R78Y8OOZYrd&fbclid=IwAR2VC6r1GpSgeTGrUWT9QMUpy0ghebcO4R5GFOiRUrSya3rRBcO79GRDAw8)
 
 Abstract :
 
